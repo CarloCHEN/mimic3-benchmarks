@@ -6,7 +6,7 @@ import numpy as np
 import os
 import pandas as pd
 from tqdm import tqdm
-
+from datetime import datetime, timedelta
 from mimic3benchmark.util import dataframe_from_csv
 
 
@@ -76,8 +76,10 @@ def merge_on_subject_admission(table1, table2):
 
 
 def add_age_to_icustays(stays):
-    stays['AGE'] = stays.INTIME.subtract(stays.DOB).apply(lambda s: s / np.timedelta64(1, 's')) / 60./60/24/365
-    stays.ix[stays.AGE < 0, 'AGE'] = 90
+    # stays['AGE'] = stays.INTIME.subtract(stays.DOB).apply(lambda s: s / np.timedelta64(1, 's')) / 60./60/24/365
+    stays['AGE'] = stays.INTIME.dt.date.subtract(stays.DOB.dt.date).apply(lambda s: s / timedelta(seconds=1)) / 60./60/24/365
+    # stays.ix[stays.AGE < 0, 'AGE'] = 90
+    stays.loc[stays.AGE < 0, 'AGE'] = 90
     return stays
 
 
