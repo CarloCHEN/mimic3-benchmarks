@@ -45,7 +45,7 @@ def main():
         assert(len(stays_df['HADM_ID'].unique()) == len(stays_df['HADM_ID']))
 
         events_df = pd.read_csv(os.path.join(args.subjects_root_path, subject, 'events.csv'), index_col=False,
-                                dtype={'HADM_ID': str, "ICUSTAY_ID": str})
+                                dtype={'HADM_ID': str, "ICUSTAY_ID": str, "CHARTTIME":str, "ITEMID": str, "VALUE": str, "VALUEUOM": str})
         events_df.columns = events_df.columns.str.upper()
         n_events += events_df.shape[0]
 

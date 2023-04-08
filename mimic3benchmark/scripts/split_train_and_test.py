@@ -4,7 +4,7 @@ from __future__ import print_function
 import os
 import shutil
 import argparse
-
+import random
 
 def move_to_partition(args, patients, partition):
     if not os.path.exists(os.path.join(args.subjects_root_path, partition)):
@@ -32,10 +32,17 @@ def main():
     train_patients = [x for x in folders if x not in test_set]
     test_patients = [x for x in folders if x in test_set]
 
+    # random.seed(1)
+    # validation_patients = random.sample(train_patients, 3244)
+    # train_patients = [x for x in train_patients if x not in validation_patients]
+
     assert len(set(train_patients) & set(test_patients)) == 0
+
+    print(len(train_patients), len(test_patients), len(train_patients) + len(test_patients))
 
     move_to_partition(args, train_patients, "train")
     move_to_partition(args, test_patients, "test")
+    # move_to_partition(args, validation_patients, "validation")
 
 
 if __name__ == '__main__':

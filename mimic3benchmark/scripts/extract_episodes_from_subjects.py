@@ -12,6 +12,8 @@ from mimic3benchmark.subject import convert_events_to_timeseries, get_first_vali
 from mimic3benchmark.preprocessing import read_itemid_to_variable_map, map_itemids_to_variables, clean_events
 from mimic3benchmark.preprocessing import assemble_episodic_data
 
+import warnings
+warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Extract episodes from per-subject data.')
 parser.add_argument('subjects_root_path', type=str, help='Directory containing subject sub-directories.')

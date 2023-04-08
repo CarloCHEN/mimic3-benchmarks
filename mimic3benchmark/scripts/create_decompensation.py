@@ -43,13 +43,14 @@ def process_partition(args, partition, sample_rate=1.0, shortest_length=4.0,
 
                 stay = stays_df[stays_df.ICUSTAY_ID == label_df.iloc[0]['Icustay']]
                 deathtime = stay['DEATHTIME'].iloc[0]
+                # deathtime = str(pd.to_datetime(deathtime))
                 intime = stay['INTIME'].iloc[0]
+                # intime = str(pd.to_datetime(intime))
                 if pd.isnull(deathtime):
                     lived_time = 1e18
                 else:
-                    lived_time = (datetime.strptime(deathtime, "%Y-%m-%d %H:%M:%S") -
-                                  datetime.strptime(intime, "%Y-%m-%d %H:%M:%S")).total_seconds() / 3600.0
-
+                    lived_time = (pd.to_datetime(deathtime) -
+                                      pd.to_datetime(intime)).total_seconds() / 3600.0
                 ts_lines = tsfile.readlines()
                 header = ts_lines[0]
                 ts_lines = ts_lines[1:]
